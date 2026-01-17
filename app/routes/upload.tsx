@@ -4,6 +4,9 @@ import { useState, type FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
 import FileUploader from "~/components/fileUploader";
 import { usePuterStore } from "~/lib/puter";
+import { convertPdfToImage } from "~/lib/pdf2image";
+import { generateUUID } from "~/lib/utils";
+import { prepareInstructions } from "~/constants";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -13,7 +16,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Upload() {
-  const { auth, isLoading } = usePuterStore();
+  const { auth, isLoading, fs, ai, kv } = usePuterStore();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusText, setStatusText] = useState("");
@@ -40,7 +43,9 @@ export default function Upload() {
     }
 
     const form = e.currentTarget.closest("form");
-    if (!form) return;
+    if (!form) {
+      return;
+    }
 
     const formData = new FormData(form);
 
@@ -48,14 +53,81 @@ export default function Upload() {
     const jobTitle = formData.get("job-title") as string;
     const jobDescription = formData.get("job-description") as string;
 
+    handleAnalysisResume({ companyName, jobTitle, jobDescription, file });
+  };
+
+  const handleAnalysisResume = async ({ companyName, jobTitle, jobDescription, file }: { companyName: string, jobTitle: string, jobDescription: string, file: File }) => {
     setIsProcessing(true);
     setStatusText("Uploading your resume...");
-  };
+
+    const uploadFile = await fs.upload([file]);
+    if (!uploadFile) {
+      alert("Failed to upload the resume. Please try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    setStatusText("Converting resume ...");
+
+    const imageFile = await convertPdfToImage(file);
+    if (!imageFile) {
+      alert("Failed to convert the resume. Please try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    setStatusText("Uploading resume...");
+
+    if (!imageFile.file) {
+      alert("Failed to convert the resume. Please try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    const uploadImage = await fs.upload([imageFile.file]);
+    if (!uploadImage) {
+      alert("Failed to upload the resume image. Please try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    const uuid = generateUUID();
+    const data = {
+      id: uuid,
+      resumePath: uploadFile.path,
+      imagePath: uploadImage.path,
+      companyName: companyName,
+      jobTitle: jobTitle,
+      feedback: ''
+    };
+
+    await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+    setStatusText("Analyzing resume...");
+
+    const feedback = await ai.feedback(uploadFile.path, prepareInstructions({ jobTitle, jobDescription }));
+    if (!feedback) {
+      alert("Failed to analyze the resume. Please try again.");
+      setIsProcessing(false);
+      return;
+    }
+
+    const aiFeedback = typeof feedback?.message?.content === 'string'
+      ? feedback.message.content
+      : feedback?.message?.content[0]?.text;
+
+    data.feedback = JSON.parse(aiFeedback);
+
+    await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+    setStatusText("Analysis complete! Redirecting...");
+
+    navigate(`/resume/${uuid}`);
+  }
 
   return (
     <main className="bg-[#f8f9fc] relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[url('/images/bg-main.svg')] bg-cover opacity-50 pointer-events-none" />
-
       <Navbar />
 
       <section className="main-section relative z-10">

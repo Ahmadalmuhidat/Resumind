@@ -30,6 +30,14 @@ const Navbar = () => {
             </>
           )}
         </Link>
+        {auth.isAuthenticated && (
+          <Link
+            to="/resumes"
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-brand-700 hover:bg-gray-100 transition-all active:scale-95"
+          >
+            <span>My Resumes</span>
+          </Link>
+        )}
         <Link to="/upload" className="primary-button w-fit text-sm px-6 py-2.5 shadow-md">
           Upload Resume
         </Link>

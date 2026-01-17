@@ -1,3 +1,4 @@
+// remove later
 export const resumes: Resume[] = [
   {
     id: "1",
@@ -137,12 +138,10 @@ export const AIResponseFormat = `
 
 export const prepareInstructions = ({
   jobTitle,
-  jobDescription,
-  AIResponseFormat,
+  jobDescription
 }: {
   jobTitle: string;
-  jobDescription: string;
-  AIResponseFormat: string;
+  jobDescription: string
 }) =>
   `You are an expert in ATS (Applicant Tracking System) and resume analysis.
   Please analyze and rate this resume and suggest how to improve it.
