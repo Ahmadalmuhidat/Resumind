@@ -13,14 +13,11 @@ async function loadPdfJs(): Promise<any> {
   if (loadPromise) return loadPromise;
 
   isLoading = true;
-  // Use a more robust loading strategy for PDF.js
   loadPromise = (async () => {
     try {
-      // Import the library from the build folder for better ESM compatibility
       // @ts-expect-error - dynamic import
       const lib = await import("pdfjs-dist/build/pdf.mjs");
 
-      // Always use individual version from unpkg.com to ensure API and Worker versions match
       const version = lib.version || "5.4.530";
       lib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
 
@@ -66,7 +63,6 @@ export async function convertPdfToImage(
       canvas.toBlob(
         (blob) => {
           if (blob) {
-            // Create a File from the blob with the same name as the pdf
             const originalName = file.name.replace(/\.pdf$/i, "");
             const imageFile = new File([blob], `${originalName}.png`, {
               type: "image/png",
@@ -86,7 +82,7 @@ export async function convertPdfToImage(
         },
         "image/png",
         1.0
-      ); // Set quality to maximum (1.0)
+      );
     });
   } catch (err) {
     console.error('Failed to convert PDF:', err);
