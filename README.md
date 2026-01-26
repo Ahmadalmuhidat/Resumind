@@ -1,4 +1,4 @@
-# 📄 Resumind
+# Resumind
 
 > AI-powered resume analysis to help job seekers stand out and land their dream job.
 
@@ -83,9 +83,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [Puter](https://puter.com/) for the cloud services
-
----
-
-<p align="center">
-  Made with ❤️ by Ahmad Almuhidat
-</p>
