@@ -4,12 +4,12 @@
 
 ## Features
 
-- ** AI-Powered Analysis** - Get intelligent, context-aware feedback using AI
-- ** ATS Compatibility Check** - Ensure your resume passes automated screening systems
-- ** Content Quality Review** - Feedback on achievements and impact statements
-- ** Structure Analysis** - Optimize your resume's organization and visual hierarchy
-- ** Skills Matching** - See how well your skills align with job requirements
-- ** Responsive Design** - Works seamlessly on desktop and mobile
+- **AI-Powered Analysis** - Get intelligent, context-aware feedback using AI
+- **ATS Compatibility Check** - Ensure your resume passes automated screening systems
+- **Content Quality Review** - Feedback on achievements and impact statements
+- **Structure Analysis** - Optimize your resume's organization and visual hierarchy
+- **Skills Matching** - See how well your skills align with job requirements
+- **Responsive Design** - Works seamlessly on desktop and mobile
 
 ## Tech Stack
 
