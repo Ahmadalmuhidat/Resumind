@@ -1,7 +1,7 @@
 import { usePuterStore } from "~/lib/puter";
 import type { Route } from "./+types/auth";
 import { useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
   return [
