@@ -1,6 +1,11 @@
 # Resumind
+AI-powered resume analysis to help job seekers stand out and land their dream job.
 
-> AI-powered resume analysis to help job seekers stand out and land their dream job.
+![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%7C%20React%20Router%207%20%7C%20TypeScript-61dafb.svg)
+![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%204-06B6D4.svg)
+![Backend](https://img.shields.io/badge/Backend-Puter.js%20(Auth%2C%20Storage%2C%20KV)-6e57ff.svg)
+![AI](https://img.shields.io/badge/AI-Antigravity%20AI-blueviolet.svg)
+![Build](https://img.shields.io/badge/Build-Vite-646CFF.svg)
 
 ## Features
 
@@ -10,14 +15,6 @@
 - **Structure Analysis** - Optimize your resume's organization and visual hierarchy
 - **Skills Matching** - See how well your skills align with job requirements
 - **Responsive Design** - Works seamlessly on desktop and mobile
-
-## Tech Stack
-
-- **Frontend**: React 19, React Router 7, TypeScript
-- **Styling**: Tailwind CSS 4
-- **Backend**: Puter.js (Auth, File Storage, KV Store)
-- **AI**: Antigravity AI
-- **Build Tool**: Vite
 
 ## Installation
 
